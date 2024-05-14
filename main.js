@@ -8,11 +8,14 @@ function fetchGIF() {
   const search = encodeURI(inpSearch.value);
 
   fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${giphyKey}&s=${search}`, {mode: "cors"})
+    .catch ((response) => {
+      console.log(response.meta.msg);
+    })
     .then((response) => {
         return response.json();
     })
     .then((response) => {
-      if (response.meta.status != 200) {
+      if (response.data.length == 0) {
         console.log(response.meta.msg);
       } else {
         img.src = response.data.images.original.url;
